@@ -135,5 +135,5 @@ Start MySQL and phpMyAdmin with:
 
 Built by Koomi Toussaint AMOUSSOUVI 
 
-SQL & Data Engineering with Docker
+Data Scientist
 
