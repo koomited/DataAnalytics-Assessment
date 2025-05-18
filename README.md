@@ -11,14 +11,13 @@
 ![Awesome](https://img.shields.io/badge/Awesome-ffd700?logo=awesome&logoColor=black)
 
 ---
+This assessment is about using sql queries to derive business insights from customer data on investement and savings
 
-This project helps identify **inactive savings or investment accounts** by checking for the absence of **confirmed inflow transactions** over the past year.
-
-It uses **MySQL** running inside **Docker Compose**, includes a setup SQL script (`init.sql`), and provides a query to detect inactive accounts.
+It uses **MySQL** running inside **Docker Compose**, includes a setup SQL script, and provides a query to derive some insights.
 
 ## ⚙️ Setup
 
-You can modify `docker-compose.yml`:
+You can modify the following `docker-compose.yml`:
 
 ```yaml
 version: '3.8'
@@ -67,7 +66,7 @@ docker-compose up -d
 This will:
 
 - Start a **MySQL 8** container (`my-mysql`)
-- Create a database named `adashi_staging`
+- Create a database named `adashi_database`
 - Load any SQL setup from `adashi_assessment.sql`
 - Launch **phpMyAdmin** at `http://localhost:8080`
 
@@ -138,7 +137,7 @@ Start MySQL and phpMyAdmin with:
 
 ## 🛠️ Author
 
-Built by Koomi Toussaint AMOUSSOUVI 
+Built by **Koomi Toussaint AMOUSSOUVI**
 
 Data Scientist
 
