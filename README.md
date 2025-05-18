@@ -16,6 +16,35 @@ This project helps identify **inactive savings or investment accounts** by check
 
 It uses **MySQL** running inside **Docker Compose**, includes a setup SQL script (`init.sql`), and provides a query to detect inactive accounts.
 
+## ⚙️ Setup
+
+You can modify `docker-compose.yml`:
+
+```yaml
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: my-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecret
+      MYSQL_DATABASE: adashi_staging
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+    ports:
+      - "8080:80"
+```
+
+
 ---
 
 ## 📁 Project Structure
@@ -78,33 +107,6 @@ You can execute it from:
 
 ---
 
-## ⚙️ Configuration Options
-
-You can modify `docker-compose.yml`:
-
-```yaml
-version: '3.8'
-
-services:
-  mysql:
-    image: mysql:8
-    container_name: my-mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: mysecret
-      MYSQL_DATABASE: adashi_staging
-    ports:
-      - "3307:3306"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: mysql
-    ports:
-      - "8080:80"
-```
 
 Change:
 
