@@ -1,4 +1,7 @@
 # Byte-compiled / optimized / DLL files
+init.sql
+*.yml
+adashi_assessment.sql
 __pycache__/
 *.py[cod]
 *$py.class
