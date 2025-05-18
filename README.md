@@ -52,8 +52,13 @@ Change:
 
 ---
 
-### 🚀 Running the Containers
 
+### 🚀 Running the Containers
+First make sure your sql script `adashi_assessment.sql` is executable
+
+```bash
+chmod 644 ./adashi_assessment.sql
+```
 
 ```bash
 docker-compose up -d
