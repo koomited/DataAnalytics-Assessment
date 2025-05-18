@@ -12,8 +12,6 @@
 
 ---
 
-# Inactive Account Alert SQL Project
-
 This project helps identify **inactive savings or investment accounts** by checking for the absence of **confirmed inflow transactions** over the past year.
 
 It uses **MySQL** running inside **Docker Compose**, includes a setup SQL script (`init.sql`), and provides a query to detect inactive accounts.
