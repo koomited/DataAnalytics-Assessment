@@ -34,7 +34,7 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./adashi_assessment.sql:/docker-entrypoint-initdb.d/adashi_assessment.sql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -44,33 +44,16 @@ services:
       - "8080:80"
 ```
 
+Change:
 
----
-
-## 📁 Project Structure
-
-```
-.
-├── init.sql                 # SQL to create and initialize your schema/tables
-├── docker-compose.yml       # Docker setup for MySQL and phpMyAdmin
-├── your_query.sql           # SQL to detect inactive accounts
-└── README.md
-```
-
----
-
-## 🐳 Getting Started with Docker
-
-### ✅ Prerequisites
-
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
+- `MYSQL_ROOT_PASSWORD` to secure your DB
+- `MYSQL_DATABASE` to create a different schema
+- `adashi_assessment.sql` to you database creation file
 
 ---
 
 ### 🚀 Running the Containers
 
-Start MySQL and phpMyAdmin with:
 
 ```bash
 docker-compose up -d
@@ -80,10 +63,11 @@ This will:
 
 - Start a **MySQL 8** container (`my-mysql`)
 - Create a database named `adashi_staging`
-- Load any SQL setup from `init.sql`
+- Load any SQL setup from `adashi_assessment.sql`
 - Launch **phpMyAdmin** at `http://localhost:8080`
 
 ---
+
 
 ### 🔐 Access phpMyAdmin
 
@@ -95,25 +79,6 @@ Go to [http://localhost:8080](http://localhost:8080) and log in with:
 
 ---
 
-## 🧪 Run the Inactivity Query
-
-Use the query in `your_query.sql` to list plans (either `Savings` or `Investment`) with **no confirmed inflow transaction** in the last **365 days**.
-
-You can execute it from:
-
-- phpMyAdmin
-- Any SQL client that connects to `localhost:3307`
-- CLI inside the container
-
----
-
-
-Change:
-
-- `MYSQL_ROOT_PASSWORD` to secure your DB
-- `MYSQL_DATABASE` to create a different schema
-
----
 
 ## 🧹 Stopping & Cleaning Up
 
@@ -129,18 +94,41 @@ To stop and remove volumes (⚠️ deletes data):
 docker-compose down -v
 ```
 
+Start MySQL and phpMyAdmin with:
+
+
+
+
+
+---
+
+## 📁 Project Structure
+
+```
+.
+│
+├── Assessment_Q1.sql
+├── Assessment_Q2.sql
+├── Assessment_Q3.sql
+├── Assessment_Q4.sql
+│
+└── README.md
+
+```
+
+
 ---
 
 ## 📝 Notes
 
-- `init.sql` runs **only once**, when the container is first created. To re-run it:
+- `adashi_assessment.sql` runs **only once**, when the container is first created. To re-run it:
   - Remove the volume (`-v`)
   - Restart the container
-- Make sure your `init.sql` script creates:
+- Make sure your `adashi_assessment.sql` script creates:
+  - `users_customuser`
   - `plans_plan`
   - `savings_savingsaccount`
-  - Any indexes or sample data if required
-
+  - `withdrawals_withdrawal`
 ---
 
 ## 🛠️ Author
