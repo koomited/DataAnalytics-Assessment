@@ -30,7 +30,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: mysecret
-      MYSQL_DATABASE: adashi_staging
+      MYSQL_DATABASE: adashi_database
     ports:
       - "3307:3306"
     volumes:
