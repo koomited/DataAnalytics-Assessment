@@ -129,6 +129,7 @@ Start MySQL and phpMyAdmin with:
 - Join `users_customuser`, `plans_plan`, and `savings_savingsaccount`.
 - Use `INNER JOIN` to avoid uneccesary computation on user with no plans and savings
 - Use  `DISTINCT CASE ` to avoid counting a plan multiple times due to the join with savings_savingsaccount.
+- We also make sure we only return investement or saving not other unknown flag
 
 ---
 

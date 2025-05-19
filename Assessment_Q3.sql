@@ -31,5 +31,5 @@ GROUP BY
 
 HAVING 
     type IS NOT NULL
-    AND inactivity_days > 365
+    AND inactivity_days > 365;
 

@@ -34,3 +34,6 @@ GROUP BY
 
 HAVING 
     tenure_months > 0  -- Exclude users who signed up this month (tenure = 0)
+    
+ORDER BY 
+    estimated_clv DESC;  -- Sort from highest to lowest CLV
