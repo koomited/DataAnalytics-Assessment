@@ -151,8 +151,6 @@ The main thing here is the period to consider. But since we are looking for freq
 - We remove row whith null values for `is_a_fund` and `is_regular_savings`.
 ---
 
----
-
 ### 4. Estimate Customer Lifetime Value (CLV)
 
 **Approach**:
@@ -160,8 +158,6 @@ The main thing here is the period to consider. But since we are looking for freq
 - We also only include valid transaction and avoid making computation with null values
 - We return user with no transaction too
   
-
----
 
 ---
 
