@@ -175,7 +175,7 @@ The main thing here is the period to consider. But since we are looking for freq
   
 ---
 ## Technical issues
-When I start the containers, no tables was showing. The first thing I do is to look at the log files of my containers using the commands:
+When I start the containers, no tables were created. The first thing I do is to look at the log files of my containers using the commands:
 
 ```bash
  Docker logs `container id`
