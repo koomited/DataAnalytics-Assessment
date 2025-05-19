@@ -14,9 +14,9 @@ SELECT
     ROUND(
         (
             -- Use NULLIF to avoid division by zero if tenure_months is 0
-            (COUNT(S.id) / NULLIF(TIMESTAMPDIFF(MONTH, U.date_joined, CURDATE()), 0)) 
+            COUNT(S.id) / TIMESTAMPDIFF(MONTH, U.date_joined, CURDATE())
             * 12 
-            * (0.001 * AVG(S.confirmed_amount))
+            * (0.001 * AVG(COALESCE(S.confirmed_amount, 0)))
         ),
         2
     ) AS estimated_clv
@@ -30,10 +30,7 @@ FROM
         AND S.confirmed_amount > 0  -- Only include confirmed (valid) transactions
 
 GROUP BY 
-    U.id, name
+    U.id
 
 HAVING 
     tenure_months > 0  -- Exclude users who signed up this month (tenure = 0)
-
-ORDER BY 
-    estimated_clv DESC;  -- Sort from highest to lowest CLV

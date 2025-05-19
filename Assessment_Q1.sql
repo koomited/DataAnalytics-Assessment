@@ -1,36 +1,37 @@
--- Select customer details and aggregated plan and deposit info
+-- Select customer details along with counts of funded savings/investment plans and total deposits
 SELECT 
     U.id AS owner_id,  -- Unique ID of the customer
     CONCAT(U.first_name, " ", U.last_name) AS name,  -- Full name of the customer
 
-    -- Count distinct savings plans (is_regular_savings = 1) per customer
-    COUNT(DISTINCT CASE WHEN P.is_regular_savings = 1 THEN P.id END) AS savings_count,
+    -- Count of distinct funded savings plans (is_regular_savings = 1)
+    COUNT(DISTINCT CASE 
+        WHEN P.is_regular_savings = 1 THEN P.id 
+    END) AS savings_count,
 
-    -- Count distinct investment plans (is_a_fund = 1) per customer
-    COUNT(DISTINCT CASE WHEN P.is_a_fund = 1 THEN P.id END) AS investment_count,
+    -- Count of distinct funded investment plans (is_a_fund = 1)
+    COUNT(DISTINCT CASE 
+        WHEN P.is_a_fund = 1 THEN P.id 
+    END) AS investment_count,
 
-    -- Sum of all confirmed deposit amounts linked to customer's plans (amounts are in kobo)
-    SUM(S.confirmed_amount) AS total_deposits
+    -- Sum of all confirmed deposit amounts linked to customer's funded plans (amounts are in kobo)
+    ROUND(SUM(S.confirmed_amount),2) AS total_deposits
 
 FROM 
-    users_customuser U  -- Base table of customers
+    users_customuser U  -- Base user table
 
     -- Inner join to include only customers who have at least one plan
-    INNER JOIN plans_plan P ON P.owner_id = U.id
+    INNER JOIN plans_plan P 
+        ON P.owner_id = U.id
 
-    -- Left join to include deposit transactions for each plan, if any exist
-    LEFT JOIN savings_savingsaccount S ON S.plan_id = P.id
+    -- Inner join only transactions where confirmed deposits exist
+    INNER JOIN savings_savingsaccount S 
+        ON S.plan_id = P.id 
+        AND S.confirmed_amount > 0  -- Only funded plans are counted
 
--- Group by customer to aggregate counts and sums per user
+-- Group by user to compute aggregates per customer
 GROUP BY 
     U.id
 
--- Filter to keep only customers with:
--- At least one savings plan AND at least one investment plan
-HAVING 
-    COUNT(DISTINCT CASE WHEN P.is_regular_savings = 1 THEN P.id END) > 0
-    AND COUNT(DISTINCT CASE WHEN P.is_a_fund = 1 THEN P.id END) > 0
-
--- Sort the final list by total deposits in descending order (highest value customers first)
+-- Order by total confirmed deposits (highest value customers first)
 ORDER BY 
     total_deposits DESC;

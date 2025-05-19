@@ -119,7 +119,49 @@ Start MySQL and phpMyAdmin with:
 └── README.md
 
 ```
+## 📊 Problem-Solving Approaches
 
+### 1. Customers With Both Savings and Investment Plans
+
+**Goal**: Identify customers who have at least one savings plan and one investment plan, and compute total deposits.
+
+**Approach**:
+- Join `users_customuser`, `plans_plan`, and `savings_savingsaccount`.
+- Use `INNER JOIN` to avoid uneccesary computation on user with no plans and savings
+- Use  `DISTINCT CASE ` to avoid counting a plan multiple times due to the join with savings_savingsaccount.
+
+---
+
+### 2. Inactive Plans (No Transactions for Over 365 Days)
+
+**Goal**: Identify savings or investment plans that have not received inflows in the past year.
+
+**Approach**:
+The main thing here is the period to consider. But since we are looking for frequent vs. occasional users, it make more sense to look at the period from when they joined till the current date.
+- We use `GREATEST` to avoid division by 0 for user that join less than 1 month ago.
+- We use  Common Table Expression (CTE) to avoid calling  `GREATEST(TIMESTAMPDIFF(MONTH, U.date_joined, NOW())` many time
+- `COUNT(customer_id) ` to avoid countin null values
+---
+
+### 3.accounts with no inflow transactions for over one year.
+**Approach**:
+- Here we are considering the plan , investement or saving as an account and we want information about the one active with no transaction. However there is no field that explicitely indicate that these plans are active or not. So we dcide to implicitely consider plan with no transaction for at least one year as unactive
+
+- We return null value for last_transaction_date to incate plan with no transaction since they started. 
+- We remove row whith null values for `is_a_fund` and `is_regular_savings`.
+---
+
+---
+
+### 4. Estimate Customer Lifetime Value (CLV)
+
+**Approach**:
+- Since we are operating per month, we drop  user who signup less than one month ago to avoid division by zero
+- We also only include valid transaction and avoid making computation with null values
+- We return user with no transaction too
+  
+
+---
 
 ---
 
@@ -133,8 +175,22 @@ Start MySQL and phpMyAdmin with:
   - `plans_plan`
   - `savings_savingsaccount`
   - `withdrawals_withdrawal`
+- These queries are designed to work for MySQL. They may not work for other database like  PostgreSQL.
+  
 ---
+## Technical issues
+When I start the containers, no tables was showing. The first thing I do is to look at the log files of my containers using the commands:
 
+```bash
+ Docker logs `container id`
+```
+
+Then I realize there an error in mysql container because the script `adashi_assessment.sql` is not executable. I make it executable using the command:
+
+```bash
+ chmod 644 adashi_assessment.sql
+```
+Then I rerun the containers and it worked.
 ## 🛠️ Author
 
 Built by **Koomi Toussaint AMOUSSOUVI**
